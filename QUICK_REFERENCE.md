@@ -22,7 +22,77 @@ orchestrator = Orchestrator(db)
 
 ---
 
-## 📚 Toon Management
+## 📚 Toon Notation - Compact Data Encoding
+
+### What is Toon Notation?
+
+A compact format that reduces token usage by **40-70%** when passing data to LLMs.
+
+```python
+# Instead of verbose JSON:
+data = {"items": [{"id": 1, "name": "foo"}, {"id": 2, "name": "bar"}]}
+json_str = json.dumps(data)  # ~80 tokens
+
+# Use Toon notation:
+toon_str = ToonNotation.encode(data)  # ~25 tokens (70% savings!)
+```
+
+### Encode Data in Toon Notation
+
+```python
+# Simple object
+data = {'id': 1, 'name': 'Ada'}
+encoded = ToonNotation.encode(data)
+# Output:
+# id: 1
+# name: Ada
+
+# Tabular array (most efficient for uniform data!)
+data = {
+    'patients': [
+        {'id': 1, 'age': 45, 'dx': 'diabetes'},
+        {'id': 2, 'age': 52, 'dx': 'hypertension'}
+    ]
+}
+encoded = ToonNotation.encode(data)
+# Output:
+# patients[2]{id,age,dx}:
+#   1,45,diabetes
+#   2,52,hypertension
+
+# Primitive array (inline)
+data = {'tags': ['foo', 'bar', 'baz']}
+encoded = ToonNotation.encode(data)
+# Output:
+# tags[3]: foo,bar,baz
+```
+
+### Compare Token Usage
+
+```python
+# See the savings
+comparison = ToonNotation.compare_sizes(your_data)
+print(f"JSON: {comparison['json_tokens']} tokens")
+print(f"Toon: {comparison['toon_tokens']} tokens")
+print(f"Savings: {comparison['savings_percent']}%")
+```
+
+### Use with Agents
+
+```python
+# Pass data efficiently to agents
+parsed_data = [{'var': 'bp_sys', 'type': 'int'}, ...]
+
+# Option 1: JSON (verbose)
+agent.process(json.dumps(parsed_data))  # Many tokens
+
+# Option 2: Toon notation (efficient!)
+agent.process(ToonNotation.encode(parsed_data))  # Fewer tokens
+```
+
+---
+
+## 📝 Toon Library - Context Snippets
 
 ### Create a Toon
 ```python
