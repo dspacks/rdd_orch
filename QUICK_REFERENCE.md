@@ -28,6 +28,8 @@ orchestrator = Orchestrator(db)
 
 A compact format that reduces token usage by **40-70%** when passing data to LLMs.
 
+**🎉 Fully Integrated:** All agents (TechnicalAnalyzerAgent, DomainOntologyAgent, PlainLanguageAgent) automatically use Toon notation internally when making API calls. You don't need to manually encode data - the system handles it for you!
+
 ```python
 # Instead of verbose JSON:
 data = {"items": [{"id": 1, "name": "foo"}, {"id": 2, "name": "bar"}]}
