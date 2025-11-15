@@ -1,0 +1,20 @@
+# Core dependencies for ADE Healthcare Documentation System
+
+# Google Gemini API
+google-generativeai>=0.3.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Database
+# sqlite3 is included with Python standard library
+
+# Jupyter (for local development)
+jupyter>=1.0.0
+ipykernel>=6.25.0
+
+# Optional: For enhanced functionality
+# streamlit>=1.28.0  # For web UI (future)
+# plotly>=5.17.0     # For visualizations (future)
+# python-dotenv>=1.0.0  # For environment variables
