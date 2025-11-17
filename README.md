@@ -1,6 +1,6 @@
 # Agent Development Environment (ADE) for Healthcare Data Documentation
 
-![Version](https://img.shields.io/badge/version-3.0-blue)
+![Version](https://img.shields.io/badge/version-3.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 A specialized development environment for building, testing, and managing AI agents using the Google Gemini API. The ADE creates an orchestrator and team of sub-agents that transform complex healthcare data specifications into comprehensive, human-readable documentation.
@@ -12,11 +12,20 @@ The ADE system ingests technical data specifications (CSV, XML, JSON) that are o
 ## Key Features
 
 ### 🤖 **Multi-Agent System**
+
+**Core Agents:**
 - **DataParserAgent** - Converts raw data to standardized JSON
 - **TechnicalAnalyzerAgent** - Infers field mappings and properties (uses Toon notation for 40-70% token reduction)
 - **DomainOntologyAgent** - Maps to standard healthcare ontologies (OMOP, LOINC, SNOMED) with Toon encoding
 - **PlainLanguageAgent** - Generates human-readable documentation using Toon notation for efficiency
 - **DocumentationAssemblerAgent** - Compiles final documentation
+
+**Extended Agents (NEW):**
+- **ValidationAgent** - Validates outputs for quality and consistency, checks ontology mapping accuracy
+- **VersionControlAgent** - Tracks documentation versions and manages change history
+- **DataConventionsAgent** - Analyzes naming patterns and enforces data conventions (snake_case, camelCase, etc.)
+- **DesignImprovementAgent** - Enhances documentation design, clarity, and structure with scoring
+- **HigherLevelDocumentationAgent** - Generates instrument-level, segment, and codebook documentation
 
 **💡 All agents now use Toon notation internally** to reduce API token usage by 40-70% per agent call.
 
@@ -56,10 +65,18 @@ A unique system for managing large files and agent context:
   │      │      │      │      │
   ▼      ▼      ▼      ▼      ▼
 ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐
-│DP  │→│TA  │→│DO  │→│PL  │→│DA  │  (Agents)
+│DP  │→│TA  │→│DO  │→│PL  │→│DA  │  (Core Agents)
 └────┘ └────┘ └────┘ └────┘ └────┘
   │      │      │      │      │
   └──────┴──────┴──────┴──────┘
+             │
+        ┌────▼────┐
+        │Extended │
+        │ Agents  │
+        └─────────┘
+    ┌────┬────┬────┬────┐
+    │VA  │VC  │DC  │DI  │ HL (Extended)
+    └────┴────┴────┴────┘
              │
 ┌────────────▼────────────────────────────────────────────────┐
 │                  SQLite Database                             │
@@ -67,7 +84,13 @@ A unique system for managing large files and agent context:
 │  • ReviewQueue (HITL Workflow)                              │
 │  • Jobs (Tracking)                                          │
 │  • SessionHistory (Memory)                                  │
+│  • SystemState (Persistence)                                │
 └──────────────────────────────────────────────────────────────┘
+
+Legend: DP=DataParser, TA=TechnicalAnalyzer, DO=DomainOntology,
+        PL=PlainLanguage, DA=DocumentationAssembler
+        VA=Validation, VC=VersionControl, DC=DataConventions,
+        DI=DesignImprovement, HL=HigherLevelDocumentation
 ```
 
 ## Quick Start
@@ -168,6 +191,39 @@ print(f"Needs compaction: {memory['needs_compaction']}")
 # Compact if needed
 if memory['needs_compaction']:
     summary = context_manager.compact_context(job_id)
+```
+
+### Using Extended Agents
+
+```python
+# Validate agent outputs for quality
+validator = ValidationAgent()
+validation_result = validator.process(agent_output)
+# Returns: validation_passed, overall_score, issues_found, recommendations
+
+# Check data naming conventions
+conventions_agent = DataConventionsAgent()
+conventions_report = conventions_agent.process(parsed_data)
+# Returns: naming_pattern, convention_compliance score, warnings, suggestions
+
+# Improve documentation design
+design_agent = DesignImprovementAgent()
+improved_doc = design_agent.process(documentation)
+# Returns: improved_content, design_score (before/after), improvements_made
+
+# Track documentation versions
+version_agent = VersionControlAgent(db)
+version_info = version_agent.create_version(
+    element_id="bp_systolic",
+    element_type="field",
+    content=new_documentation,
+    author="reviewer"
+)
+
+# Generate higher-level documentation
+higher_level_agent = HigherLevelDocumentationAgent()
+instrument_doc = higher_level_agent.process(variables_group)
+# Returns: instrument_name, description, variables list, markdown documentation
 ```
 
 ## Database Schema
@@ -373,17 +429,20 @@ If you use this system in your research, please cite:
 
 ## Roadmap
 
-### Version 3.1 (Planned)
+### Version 3.1 (Current - Completed)
+- [x] Extended agent system (Validation, VersionControl, DataConventions, DesignImprovement, HigherLevelDocumentation)
+- [x] Batch processing for multiple files (SnippetManager, BatchProcessor)
+- [x] Version control for documentation (VersionControlAgent)
+- [x] Validation testing framework (ValidationAgent, ValidationAgentTester)
 - [ ] Web UI using Streamlit
-- [ ] Batch processing for multiple files
 - [ ] Export to multiple formats (PDF, HTML)
 - [ ] Integration with REDCap API
 
 ### Version 4.0 (Future)
 - [ ] Multi-user support
-- [ ] Version control for documentation
 - [ ] Custom agent templates
 - [ ] Plugin system for ontologies
+- [ ] Advanced analytics and reporting dashboard
 
 ## Acknowledgments
 
@@ -398,5 +457,5 @@ Inspired by the need for better healthcare data documentation and the power of A
 ---
 
 **Status**: Active Development
-**Last Updated**: 2024-11-15
+**Last Updated**: 2025-11-17
 **Maintainer**: dspacks

@@ -674,7 +674,187 @@ print(result)
 
 ---
 
+## 🆕 Extended Agents (NEW)
+
+### Validation Agent
+```python
+# Validate outputs for quality and consistency
+validator = ValidationAgent()
+result = validator.process(agent_output)
+
+if result['validation_passed']:
+    print(f"Score: {result['overall_score']}/100")
+else:
+    for issue in result['issues_found']:
+        print(f"Issue: {issue['description']}")
+```
+
+### Version Control Agent
+```python
+# Track documentation versions
+version_agent = VersionControlAgent(db)
+
+# Create a version
+version_info = version_agent.create_version(
+    element_id="bp_systolic",
+    element_type="field",
+    content="Updated documentation...",
+    author="reviewer"
+)
+
+# Get version history
+history = version_agent.get_history("bp_systolic", "field")
+```
+
+### Data Conventions Agent
+```python
+# Check naming conventions
+conventions_agent = DataConventionsAgent()
+report = conventions_agent.process(parsed_data)
+
+print(f"Compliance: {report['convention_compliance']}%")
+print(f"Pattern: {report['naming_pattern']}")
+for warning in report['convention_warnings']:
+    print(f"  Warning: {warning}")
+```
+
+### Design Improvement Agent
+```python
+# Improve documentation design
+design_agent = DesignImprovementAgent()
+improved = design_agent.process(draft_documentation)
+
+print(f"Before: {improved['design_score']['before']}")
+print(f"After: {improved['design_score']['after']}")
+print(f"\nImproved content:\n{improved['improved_content']}")
+```
+
+### Higher-Level Documentation Agent
+```python
+# Generate instrument-level docs
+higher_level_agent = HigherLevelDocumentationAgent()
+
+# Group related variables
+instrument = higher_level_agent.create_instrument(
+    variables=["bp_systolic", "bp_diastolic", "heart_rate"],
+    name="Vital Signs"
+)
+
+print(instrument['documentation_markdown'])
+```
+
+---
+
+## 🔄 Batch Processing
+
+### Process Multiple Files
+```python
+# Batch process data dictionaries
+files = ["study1.csv", "study2.csv", "study3.csv"]
+results = {}
+
+for file_path in files:
+    with open(file_path, 'r') as f:
+        data = f.read()
+
+    job_id = orchestrator.process_data_dictionary(
+        source_data=data,
+        source_file=file_path,
+        auto_approve=False
+    )
+    results[file_path] = job_id
+    print(f"Processed {file_path}: Job {job_id}")
+```
+
+### Monitor Batch Progress
+```python
+# Check status of all jobs
+for file_name, job_id in results.items():
+    job = db.execute_query(
+        "SELECT status FROM Jobs WHERE job_id = ?",
+        (job_id,)
+    )[0]
+    print(f"{file_name}: {job['status']}")
+```
+
+---
+
+## ✅ Validation Testing
+
+### Run Validation on Pipeline Output
+```python
+validator = ValidationAgent()
+
+# After each agent stage
+parser_output = parser_agent.process(data)
+validation = validator.process(parser_output)
+
+if not validation['validation_passed']:
+    print("Validation failed!")
+    for issue in validation['issues_found']:
+        print(f"  - {issue['type']}: {issue['description']}")
+    # Handle failure
+else:
+    print(f"Validation passed with score: {validation['overall_score']}")
+    # Continue pipeline
+```
+
+### Test Edge Cases
+```python
+tester = ValidationAgentTester()
+
+# Test various scenarios
+tester.test_valid_output()
+tester.test_invalid_output()
+tester.test_edge_cases()
+
+# Get performance metrics
+metrics = tester.benchmark_performance()
+print(f"Accuracy: {metrics['accuracy']}%")
+```
+
+---
+
+## ⚙️ API Configuration
+
+### Set Rate Limits
+```python
+from ade_system import APIConfig
+
+# Free tier (conservative)
+config = APIConfig(
+    tier="free",
+    requests_per_minute=15,
+    requests_per_day=1500,
+    retry_attempts=3
+)
+
+# Paid tier (higher limits)
+config = APIConfig(
+    tier="paid",
+    requests_per_minute=60,
+    requests_per_day=10000,
+    retry_attempts=5
+)
+
+# Apply to agent
+agent = ValidationAgent(config=config)
+```
+
+### Monitor API Usage
+```python
+# Check current usage
+usage = agent.get_usage_stats()
+print(f"Today: {usage['daily_count']}/{usage['daily_limit']}")
+print(f"This minute: {usage['minute_count']}/{usage['minute_limit']}")
+```
+
+---
+
 For more details, see:
 - **README.md** - Full system documentation
+- **AGENTS.md** - Complete agent documentation
+- **ADVANCED_FEATURES.md** - Batch processing, validation, and more
+- **DATABASE_SCHEMA.md** - Database tables and queries
 - **PROJECT_OVERVIEW.md** - Architecture and rationale
 - **KAGGLE_SETUP.md** - Kaggle-specific instructions
