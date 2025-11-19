@@ -555,6 +555,178 @@ agent_engines.delete(resource_name=remote_agent.resource_name, force=True)
 
 ---
 
+## Healthcare ADE Agent Deployment (Extended Implementation)
+
+### Overview
+
+The Healthcare Data Documentation Agent in this repository extends the basic deployment pattern with **16 specialized tools** across 6 categories for comprehensive healthcare data documentation.
+
+### Project Structure
+
+```
+healthcare_agent_deploy/
+├── agent.py                     # Agent with 16 specialized tools
+├── requirements.txt             # Python dependencies
+├── .env                         # Environment configuration
+├── .agent_engine_config.json    # Deployment specifications (2 CPU, 4Gi RAM)
+└── README.md                    # Deployment instructions
+```
+
+### Extended Agent Capabilities
+
+The deployed agent includes:
+
+**Core Healthcare Documentation (3 tools)**
+- `parse_data_dictionary` - Parse CSV/JSON data dictionaries
+- `map_to_ontology` - Map to OMOP, LOINC, SNOMED codes
+- `generate_documentation` - Create human-readable docs
+
+**Design Improvement (2 tools)**
+- `improve_document_design` - Enhance structure and readability with quality scores
+- `analyze_design_patterns` - Identify design inconsistencies
+
+**Data Conventions (2 tools)**
+- `analyze_variable_conventions` - Detect naming patterns (snake_case, camelCase, etc.)
+- `generate_conventions_glossary` - Create standards documentation
+
+**Version Control (4 tools)**
+- `create_version` - Track changes with semantic versioning
+- `get_version_history` - View complete version history
+- `rollback_version` - Revert to previous versions
+- `compare_versions` - Diff between versions
+
+**Higher-Level Documentation (4 tools)**
+- `identify_instruments` - Auto-detect measurement scales (e.g., PHQ-9, GAD-7)
+- `document_instrument` - Create instrument-level documentation
+- `document_segment` - Document logical variable groupings
+- `generate_codebook_overview` - Comprehensive codebook summary
+
+**Memory (2 tools)**
+- `save_to_memory` - Store findings across sessions
+- `retrieve_from_memory` - Recall previous learnings
+
+### Deployment Configuration
+
+```json
+{
+  "min_instances": 0,
+  "max_instances": 3,
+  "resource_limits": {
+    "cpu": "2",
+    "memory": "4Gi"
+  },
+  "timeout_seconds": 300,
+  "environment_variables": {
+    "LOG_LEVEL": "INFO"
+  }
+}
+```
+
+**Note:** 4Gi memory allocation supports processing large codebooks (1000+ variables)
+
+### Deploy Healthcare Agent
+
+```bash
+# From the repository root
+export PROJECT_ID="your-project-id"
+export REGION="us-central1"
+
+adk deploy agent_engine \
+    --project=$PROJECT_ID \
+    --region=$REGION \
+    healthcare_agent_deploy \
+    --agent_engine_config_file=healthcare_agent_deploy/.agent_engine_config.json
+```
+
+### Testing with Healthcare Data
+
+```python
+import vertexai
+from vertexai import agent_engines
+
+vertexai.init(project=PROJECT_ID, location=REGION)
+
+agents_list = list(agent_engines.list())
+healthcare_agent = agents_list[0]
+
+# Test with sample healthcare data dictionary
+test_data = """Variable Name,Field Type,Field Label,Notes
+patient_id,text,Patient ID,Unique identifier
+age,integer,Age (years),Age at enrollment
+bp_systolic,integer,Systolic BP,mmHg
+hba1c,decimal,HbA1c (%),Glycemic control marker"""
+
+response = healthcare_agent.query(
+    message=f"Parse this data dictionary, map to ontologies, and generate comprehensive documentation:\n\n{test_data}",
+    user_id="test_user"
+)
+print(response)
+```
+
+### Extended Workflow Example
+
+The agent can handle complex multi-step workflows:
+
+```python
+# Step 1: Parse and analyze conventions
+response1 = healthcare_agent.query(
+    message="Analyze variable naming conventions in this dataset",
+    user_id="user_001"
+)
+
+# Step 2: Identify instruments
+response2 = healthcare_agent.query(
+    message="Identify any measurement instruments (PHQ-9, GAD-7, etc.) based on variable prefixes",
+    user_id="user_001"
+)
+
+# Step 3: Create version-controlled documentation
+response3 = healthcare_agent.query(
+    message="Generate documentation for patient_id and create version 1.0.0",
+    user_id="user_001"
+)
+
+# Step 4: Update and track changes
+response4 = healthcare_agent.query(
+    message="Update patient_id documentation with new notes and create a new version",
+    user_id="user_001"
+)
+
+# Step 5: Compare versions
+response5 = healthcare_agent.query(
+    message="Compare version 1.0.0 and 1.0.1 of patient_id documentation",
+    user_id="user_001"
+)
+```
+
+### Production Considerations for Healthcare
+
+1. **HIPAA Compliance**
+   - Use VPC Service Controls
+   - Enable audit logging
+   - Configure data retention policies
+
+2. **PHI Detection**
+   - Add PHI pattern detection before processing
+   - Reject data containing SSN, MRN, or other identifiers
+
+3. **Ontology Updates**
+   - Regularly update OMOP/LOINC/SNOMED mappings
+   - Version control ontology dictionaries
+
+4. **Cost Optimization**
+   - Use caching for repeated ontology lookups
+   - Set `min_instances: 0` for development
+   - Monitor token usage (typical: 500-1000 tokens per variable)
+
+### Documentation
+
+For complete deployment guide with troubleshooting, monitoring, and cost optimization, see:
+- [VERTEX_AI_DEPLOYMENT.md](../VERTEX_AI_DEPLOYMENT.md)
+- [healthcare_agent_deploy/README.md](../healthcare_agent_deploy/README.md)
+
+---
+
 ## Key Patterns Summary
 
 ### 1. Agent Creation Pattern
