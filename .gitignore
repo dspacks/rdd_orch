@@ -46,6 +46,8 @@ project_backup.db
 !AGENTS.md
 !ADVANCED_FEATURES.md
 !DATABASE_SCHEMA.md
+!VERTEX_AI_DEPLOYMENT.md
+!healthcare_agent_deploy/README.md
 healthcare_data_documentation.md
 
 # IDE

@@ -1,0 +1,12 @@
+{
+  "min_instances": 0,
+  "max_instances": 3,
+  "resource_limits": {
+    "cpu": "2",
+    "memory": "4Gi"
+  },
+  "timeout_seconds": 300,
+  "environment_variables": {
+    "LOG_LEVEL": "INFO"
+  }
+}
