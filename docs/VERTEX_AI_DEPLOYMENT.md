@@ -1,6 +1,6 @@
 # Vertex AI Agent Engine Deployment Guide
 
-**Last Updated:** 2025-11-19
+**Last Updated:** 2025-11-22
 **ADE Version:** 2.0
 
 This guide provides comprehensive instructions for deploying the Healthcare Data Documentation Agent to Google Cloud's Vertex AI Agent Engine for production use.
@@ -923,6 +923,6 @@ For issues or questions:
 ---
 
 **Version:** 2.0
-**Last Updated:** 2025-11-19
+**Last Updated:** 2025-11-22
 **Maintainer:** dspacks
 **License:** MIT

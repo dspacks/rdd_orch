@@ -704,4 +704,4 @@ def migrate_v1_to_v2(db: DatabaseManager):
 
 ---
 
-**Last Updated:** 2025-11-17
+**Last Updated:** 2025-11-22

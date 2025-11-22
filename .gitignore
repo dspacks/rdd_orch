@@ -22,6 +22,25 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -34,20 +53,8 @@ wheels/
 project.db
 project_backup.db
 
-# Generated documentation
-*.md
-!README.md
-!KAGGLE_SETUP.md
-!PROJECT_OVERVIEW.md
-!QUICK_REFERENCE.md
-!EXAMPLE_DATA_DICTIONARIES.md
-!GEMINI_API_FIX.md
-!DAY_NOTEBOOKS_SUMMARY.md
-!AGENTS.md
-!ADVANCED_FEATURES.md
-!DATABASE_SCHEMA.md
-!VERTEX_AI_DEPLOYMENT.md
-!healthcare_agent_deploy/README.md
+# Generated documentation (allow docs/ directory markdown files)
+# Only ignore generated docs in root if needed
 healthcare_data_documentation.md
 
 # IDE
@@ -80,3 +87,20 @@ temp/
 output/
 exports/
 backups/
+
+# Development tools
+*.sublime-project
+*.sublime-workspace
+.ropeproject
+.mr.developer.cfg
+.project
+.pydevproject
+.settings/
+
+# Profiling
+*.prof
+*.lprof
+
+# Compiled documentation
+docs/_build/
+site/
