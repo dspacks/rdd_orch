@@ -334,6 +334,6 @@ Have a data dictionary example you'd like to add? Please contribute!
 
 ---
 
-**Last Updated:** 2024-11-15
+**Last Updated:** 2025-11-22
 **Version:** 1.0
 **Maintainer:** ADE Development Team

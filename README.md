@@ -93,6 +93,32 @@ Legend: DP=DataParser, TA=TechnicalAnalyzer, DO=DomainOntology,
         DI=DesignImprovement, HL=HigherLevelDocumentation
 ```
 
+## Repository Structure
+
+```
+rdd_orch/
+├── ade_healthcare_documentation.ipynb  # Main implementation notebook
+├── agentic_enhancements.py            # Enhanced HITL dashboard & retry logic
+├── hitl_fixes.py                       # Database transactions & validation
+├── hitl_fixes_integration.py          # Rate limiting UI & progress widgets
+├── diagnostic_gemini_api.py           # API diagnostics tool
+├── docs/                              # Documentation
+│   ├── PROJECT_OVERVIEW.md            # Detailed project showcase
+│   ├── QUICK_REFERENCE.md             # Code snippets and examples
+│   ├── AGENTS.md                      # Agent reference documentation
+│   ├── ADVANCED_FEATURES.md           # Batch processing & validation
+│   ├── DATABASE_SCHEMA.md             # Database schema with ERD
+│   ├── VERTEX_AI_DEPLOYMENT.md        # Deployment guide
+│   └── ...                            # Additional documentation
+├── tests/                             # Test suite
+│   ├── test_hitl_fixes.py            # HITL workflow tests
+│   └── test_enhancements.py          # Enhancement demos
+├── examples/                          # ADK course notebooks
+├── healthcare_agent_deploy/          # Vertex AI deployment
+├── archived_versions/                # Old notebook versions
+└── requirements.txt                  # Python dependencies
+```
+
 ## Quick Start
 
 ### Prerequisites
@@ -119,11 +145,11 @@ Legend: DP=DataParser, TA=TechnicalAnalyzer, DO=DomainOntology,
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/rdd_orch.git
+git clone https://github.com/dspacks/rdd_orch.git
 cd rdd_orch
 
 # Install dependencies
-pip install -q google-generativeai pandas numpy jupyter
+pip install -r requirements.txt
 
 # Set your API key
 export GOOGLE_API_KEY="your-api-key-here"
@@ -395,13 +421,12 @@ Context too large
 
 ## Contributing
 
-Contributions are welcome! Please:
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- Setting up the development environment
+- Running tests
+- Code style and standards
+- Submitting pull requests
 
 ## License
 
@@ -412,20 +437,30 @@ MIT License - see LICENSE file for details
 If you use this system in your research, please cite:
 
 ```bibtex
-@software{ade_healthcare_2024,
+@software{ade_healthcare_2025,
   title={Agent Development Environment for Healthcare Data Documentation},
-  author={Your Name},
-  year={2024},
-  version={3.0},
-  url={https://github.com/yourusername/rdd_orch}
+  author={dspacks},
+  year={2025},
+  version={3.1},
+  url={https://github.com/dspacks/rdd_orch}
 }
 ```
 
+## Documentation
+
+See the `docs/` directory for comprehensive documentation:
+
+- **[PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)** - Detailed project showcase and rationale
+- **[QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)** - Code snippets for common tasks
+- **[AGENTS.md](docs/AGENTS.md)** - Complete agent reference
+- **[DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md)** - Database design and schema
+- **[VERTEX_AI_DEPLOYMENT.md](docs/VERTEX_AI_DEPLOYMENT.md)** - Production deployment guide
+
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/rdd_orch/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/rdd_orch/discussions)
-- **Documentation**: See notebook comments and docstrings
+- **Issues**: [GitHub Issues](https://github.com/dspacks/rdd_orch/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/dspacks/rdd_orch/discussions)
+- **Documentation**: See `docs/` directory and notebook comments
 
 ## Roadmap
 
@@ -457,5 +492,5 @@ Inspired by the need for better healthcare data documentation and the power of A
 ---
 
 **Status**: Active Development
-**Last Updated**: 2025-11-17
+**Last Updated**: 2025-11-22
 **Maintainer**: dspacks
