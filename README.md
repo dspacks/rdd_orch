@@ -1,6 +1,6 @@
 # Agent Development Environment (ADE) for Healthcare Data Documentation
 
-![Version](https://img.shields.io/badge/version-3.1-blue)
+![Version](https://img.shields.io/badge/version-3.2-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 A specialized development environment for building, testing, and managing AI agents using the Google Gemini API. The ADE creates an orchestrator and team of sub-agents that transform complex healthcare data specifications into comprehensive, human-readable documentation.
@@ -43,6 +43,14 @@ A unique system for managing large files and agent context:
 - Request clarifications for ambiguous data
 - Edit and refine documentation
 - Track approval status
+
+### ⚡ **NEW: Streamlined User Experience** (Version 3.2)
+- **One-Command Initialization** - From 15 cells to 3 cells (80% reduction)
+- **Simplified UI** - Tabbed interface with drag & drop file upload
+- **Extended Agent HITL** - Comprehensive review workflow for all agents
+- **Progress Tracking** - Real-time statistics and status monitoring
+- **Auto-Detection** - Automatic environment detection (Kaggle/Colab/Local)
+- See [STREAMLINING_ANALYSIS.md](STREAMLINING_ANALYSIS.md) and [STREAMLINING_EXAMPLES.md](STREAMLINING_EXAMPLES.md) for details
 
 ### 💾 **SQLite Persistence**
 - Project-local database for all data
@@ -98,10 +106,13 @@ Legend: DP=DataParser, TA=TechnicalAnalyzer, DO=DomainOntology,
 ```
 rdd_orch/
 ├── ade_healthcare_documentation.ipynb  # Main implementation notebook
+├── notebook_streamlining.py           # NEW - Streamlined initialization & UI
 ├── agentic_enhancements.py            # Enhanced HITL dashboard & retry logic
 ├── hitl_fixes.py                       # Database transactions & validation
 ├── hitl_fixes_integration.py          # Rate limiting UI & progress widgets
 ├── diagnostic_gemini_api.py           # API diagnostics tool
+├── STREAMLINING_ANALYSIS.md           # NEW - Detailed improvement analysis
+├── STREAMLINING_EXAMPLES.md           # NEW - Usage examples
 ├── docs/                              # Documentation
 │   ├── PROJECT_OVERVIEW.md            # Detailed project showcase
 │   ├── QUICK_REFERENCE.md             # Code snippets and examples
@@ -140,6 +151,36 @@ rdd_orch/
 3. **Run the Notebook**
    - Execute cells in order
    - The first run will initialize the database and create sample data
+
+### Streamlined Quick Start (NEW - Recommended)
+
+The fastest way to get started:
+
+```python
+# Cell 1: Load streamlining module
+%run notebook_streamlining.py
+
+# Cell 2: One-command initialization
+from notebook_streamlining import StreamlinedADE
+ade = StreamlinedADE()
+ade.initialize()  # Auto-detects environment, loads API key, sets up database
+
+# Cell 3: Connect orchestrator and show UI
+orchestrator = Orchestrator(ade.db)
+ade.set_orchestrator(orchestrator)
+ade.show_ui()  # Interactive UI with tabs
+
+# That's it! Now use the UI to upload and process your data
+```
+
+**Benefits:**
+- 80% less code (3 cells instead of 15+)
+- Drag & drop file upload
+- Visual review interface
+- Real-time progress tracking
+- Works in Kaggle, Colab, or local Jupyter
+
+See [STREAMLINING_EXAMPLES.md](STREAMLINING_EXAMPLES.md) for detailed examples.
 
 ### Local Setup
 
@@ -441,7 +482,7 @@ If you use this system in your research, please cite:
   title={Agent Development Environment for Healthcare Data Documentation},
   author={dspacks},
   year={2025},
-  version={3.1},
+  version={3.2},
   url={https://github.com/dspacks/rdd_orch}
 }
 ```
@@ -464,20 +505,35 @@ See the `docs/` directory for comprehensive documentation:
 
 ## Roadmap
 
-### Version 3.1 (Current - Completed)
+### Version 3.1 (Completed)
 - [x] Extended agent system (Validation, VersionControl, DataConventions, DesignImprovement, HigherLevelDocumentation)
 - [x] Batch processing for multiple files (SnippetManager, BatchProcessor)
 - [x] Version control for documentation (VersionControlAgent)
 - [x] Validation testing framework (ValidationAgent, ValidationAgentTester)
+
+### Version 3.2 (Current - Completed)
+- [x] Streamlined initialization (StreamlinedADE class)
+- [x] One-command setup (80% code reduction)
+- [x] Integrated tabbed UI (Upload, Review, Progress, Help)
+- [x] Extended Agent HITL integration (ValidationAgent, DesignImprovementAgent, HigherLevelDocumentationAgent)
+- [x] Auto-environment detection (Kaggle/Colab/Local)
+- [x] Simplified file upload with drag & drop
+- [x] Real-time progress tracking
+
+### Version 3.3 (Planned)
 - [ ] Web UI using Streamlit
 - [ ] Export to multiple formats (PDF, HTML)
 - [ ] Integration with REDCap API
+- [ ] DataConventionsAgent HITL integration
+- [ ] VersionControlAgent HITL integration
+- [ ] Batch processing UI enhancements
 
 ### Version 4.0 (Future)
 - [ ] Multi-user support
 - [ ] Custom agent templates
 - [ ] Plugin system for ontologies
 - [ ] Advanced analytics and reporting dashboard
+- [ ] Webhook notifications (Slack, email)
 
 ## Acknowledgments
 
