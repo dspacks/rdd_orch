@@ -1,7 +1,7 @@
 # Core dependencies for ADE Healthcare Documentation System
 
 # Google Gemini API
-google-generativeai>=0.3.0
+google-genai>=0.1.0
 
 # Data processing
 pandas>=2.0.0

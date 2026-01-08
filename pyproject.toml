@@ -43,7 +43,7 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "google-generativeai>=0.3.0",
+    "google-genai>=0.1.0",
     "pandas>=2.0.0",
     "numpy>=1.24.0",
     "jupyter>=1.0.0",
@@ -79,7 +79,8 @@ Issues = "https://github.com/dspacks/rdd_orch/issues"
 Changelog = "https://github.com/dspacks/rdd_orch/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
-packages = []  # Currently no installable package structure, notebook-based
+packages = ["ade", "ade.agents", "ade.ui", "ade.utils"]
+
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
