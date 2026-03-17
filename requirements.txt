@@ -1,20 +1,62 @@
 # Core dependencies for ADE Healthcare Documentation System
+# Python >=3.8 required
+
+# ============================================================================
+# Core API Dependencies
+# ============================================================================
 
 # Google Gemini API
-google-generativeai>=0.3.0
+google-generativeai>=0.8.0  # Updated to latest stable version
 
-# Data processing
-pandas>=2.0.0
-numpy>=1.24.0
+# Note: For production deployments, consider google-adk (Agent Development Kit)
+# google-adk>=1.0.0  # Uncomment for Vertex AI deployment
 
-# Database
-# sqlite3 is included with Python standard library
+# ============================================================================
+# Data Processing
+# ============================================================================
 
-# Jupyter (for local development)
+pandas>=2.2.0  # Updated for latest features and security fixes
+numpy>=1.25.0  # Updated for Python 3.12 optimization
+
+# ============================================================================
+# Document Processing (previously missing from requirements)
+# ============================================================================
+
+PyPDF2>=3.0.1  # PDF reading (fallback)
+pdfplumber>=0.9.0  # PDF table extraction (primary)
+python-docx>=0.8.11  # Word document parsing
+openpyxl>=3.1.0  # Excel file handling
+
+# ============================================================================
+# Structured Data & Validation
+# ============================================================================
+
+pydantic>=2.5.0  # For structured outputs and validation (NEW)
+
+# ============================================================================
+# Jupyter Environment
+# ============================================================================
+
 jupyter>=1.0.0
 ipykernel>=6.25.0
+ipywidgets>=8.0.0  # UI widgets (was missing)
 
-# Optional: For enhanced functionality
-# streamlit>=1.28.0  # For web UI (future)
-# plotly>=5.17.0     # For visualizations (future)
-# python-dotenv>=1.0.0  # For environment variables
+# ============================================================================
+# Optional Dependencies
+# ============================================================================
+
+# Environment variable management
+# python-dotenv>=1.0.0  # Uncomment if using .env files
+
+# Web UI (Version 3.3+)
+# streamlit>=1.28.0  # For web interface
+# plotly>=5.17.0  # For visualizations
+
+# Development tools (install with: pip install -e ".[dev]")
+# See pyproject.toml for dev dependencies
+
+# ============================================================================
+# Database
+# ============================================================================
+
+# sqlite3 is included with Python standard library (no installation needed)
