@@ -4,6 +4,32 @@ Complete reference for all agents in the Agent Development Environment (ADE) sys
 
 ---
 
+## 📋 Prerequisites for Using inject_toons()
+
+To use the `inject_toons()` method shown in examples below, enable it on your agent classes:
+
+```python
+from agent_extensions import enable_toon_injection
+from toon_manager import ToonManager, ToonType
+
+# Enable inject_toons() on your agent classes
+enable_toon_injection(
+    BaseAgent,
+    DataParserAgent,
+    TechnicalAnalyzerAgent,
+    DomainOntologyAgent,
+    PlainLanguageAgent
+)
+
+# Now all agents have inject_toons() method
+agent = TechnicalAnalyzerAgent()
+agent.inject_toons(toons)  # This now works!
+```
+
+See `INTEGRATION_GUIDE.md` for complete setup instructions.
+
+---
+
 ## Agent Architecture Overview
 
 ```

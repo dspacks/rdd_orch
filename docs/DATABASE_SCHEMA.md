@@ -98,10 +98,17 @@ agents = db.execute_query("SELECT name, model_name FROM Agents ORDER BY name")
 
 ---
 
-### 2. Toons
+### 2. Toons (Snippets)
 
 Context snippets library for agent enhancement.
 
+> **📝 Implementation Note:** The actual database table is named `Snippets` for implementation reasons, but the `ToonManager` class provides a clean API that refers to them as "Toons" throughout the documentation. Both terms are correct:
+> - **In the database**: `Snippets` table
+> - **In the API/docs**: `Toons` via `ToonManager`
+>
+> Use `ToonManager` from `toon_manager.py` - it handles the mapping transparently.
+
+**Logical Schema (as exposed by ToonManager):**
 ```sql
 CREATE TABLE IF NOT EXISTS Toons (
     toon_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -146,28 +153,52 @@ VALUES (
 ```
 
 **Common Queries:**
+
+**Option 1: Using ToonManager (Recommended)**
 ```python
+from toon_manager import ToonManager, ToonType
+
+toon_manager = ToonManager(db)
+
+# Get toon by name
+toon = toon_manager.get_toon_by_name("OMOP_BP_Mapping")
+
+# List toons by type
+instructions = toon_manager.list_toons(ToonType.INSTRUCTION)
+
+# Search toons by content
+matching = toon_manager.search_toons("blood pressure")
+
+# Get all toons
+all_toons = toon_manager.list_toons()
+```
+
+**Option 2: Direct Database Queries (if needed)**
+```python
+# Note: Direct queries use the actual table name "Snippets"
+# and column name "snippet_type" instead of "toon_type"
+
 # Get toon by name
 toon = db.execute_query(
-    "SELECT * FROM Toons WHERE name = ?",
+    "SELECT * FROM Snippets WHERE name = ?",
     ("OMOP_BP_Mapping",)
 )[0]
 
 # List toons by type
 instructions = db.execute_query(
-    "SELECT * FROM Toons WHERE toon_type = ?",
+    "SELECT * FROM Snippets WHERE snippet_type = ?",
     ("INSTRUCTION",)
 )
 
 # Search toons by content
 matching = db.execute_query(
-    "SELECT * FROM Toons WHERE content LIKE ?",
+    "SELECT * FROM Snippets WHERE content LIKE ?",
     ("%blood pressure%",)
 )
 
 # Get all toons with metadata parsing
 import json
-toons = db.execute_query("SELECT * FROM Toons")
+toons = db.execute_query("SELECT * FROM Snippets")
 for toon in toons:
     if toon['metadata']:
         toon['metadata'] = json.loads(toon['metadata'])
