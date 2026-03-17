@@ -6,7 +6,46 @@ Quick reference for common tasks and code snippets.
 
 ## 🚀 Getting Started
 
-### Initialize System
+### Option 1: Using New Modular System (Recommended)
+
+```python
+# Import core fixes and utilities
+from core_fixes import (
+    configure_gemini_api,
+    SafeDatabaseManager,
+    safe_parse_json
+)
+from toon_manager import ToonManager, ToonType, Toon, ToonNotation
+from structured_outputs import (
+    DataParserOutput,
+    TechnicalAnalyzerOutput,
+    DomainOntologyOutput,
+    parse_agent_output
+)
+from workflow_enhancements import WorkflowErrorHandler, EnhancedBatchProcessor
+from agent_extensions import enable_toon_injection
+
+# Configure API (works in Colab, Kaggle, Jupyter, local)
+api_key = configure_gemini_api()
+
+# Connect to database with transaction safety
+db = SafeDatabaseManager("project.db", timeout=30.0)
+db.connect()
+db.initialize_schema()  # Your existing schema init
+
+# Create Toon Manager
+toon_manager = ToonManager(db)
+
+# Create orchestrator (from your notebook)
+from ade_system import Orchestrator  # If using notebook classes
+orchestrator = Orchestrator(db)
+
+# Enable inject_toons() on your agent classes
+enable_toon_injection(BaseAgent, DataParserAgent, TechnicalAnalyzerAgent)
+```
+
+### Option 2: Using Notebook Classes (Original)
+
 ```python
 import sqlite3
 from ade_system import *  # All classes from notebook
@@ -18,7 +57,13 @@ db.initialize_schema()
 
 # Create orchestrator
 orchestrator = Orchestrator(db)
+
+# Optional: Add ToonManager for improved API
+from toon_manager import ToonManager, ToonType
+toon_manager = ToonManager(db)
 ```
+
+**Note:** Option 1 provides better error handling, environment portability, and type safety. See `INTEGRATION_GUIDE.md` for migration details.
 
 ---
 
